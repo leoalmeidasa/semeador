@@ -1,0 +1,8 @@
+<div class="alert alert-danger">
+  <h4 class="alert-heading"><%= t('devise.shared.error_messages.title') %></h4>
+  <ul class="mb-0">
+    <% resource.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+</div>
