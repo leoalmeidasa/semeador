@@ -11,8 +11,14 @@ gem "pg", "~> 1.1"
 gem "puma", ">= 5.0"
 # Use Tailwind CSS [https://github.com/rails/tailwindcss-rails]
 gem "tailwindcss-rails", "~> 4.0"
+# gem turbo rails
+gem 'turbo-rails'
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
+# bootstrap gem
+gem "bootstrap", "~> 5.3"
+gem "sassc-rails"
+
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
