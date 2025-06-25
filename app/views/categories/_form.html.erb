@@ -1,0 +1,8 @@
+<%= form_with model: @category, class: "space-y-4" do |f| %>
+  <div>
+    <%= f.label :name, "Nome da Categoria", class: "block text-sm font-semibold" %>
+    <%= f.text_field :name, class: "w-full p-2 border rounded" %>
+    <%= f.submit class: "btn btn-success btn-lg fw-semibold rounded-2 py-2",
+                 style: "background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); border: none;" %>
+  </div>
+<% end %>
