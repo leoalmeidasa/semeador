@@ -16,7 +16,7 @@
 
   <div>
     <%= f.label :transaction_type, "Tipo", class: "block text-sm font-semibold" %>
-    <%= f.select :transaction_type, [["Entrada", 1], ["Saída", 0]], {}, class: "w-full p-2 border rounded" %>
+    <%= f.select :transaction_type, [["Entrada", "expense"], ["Saída", "income"]], {}, class: "w-full p-2 border rounded" %>
   </div>
 
   <div>

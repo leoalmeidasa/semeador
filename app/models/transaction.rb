@@ -4,5 +4,6 @@ class Transaction < ApplicationRecord
 
   enum :transaction_type, { income: 0, expense: 1 }
 
-  validates :amount, :date, :transaction_type, presence: true
+  validates :amount, :date, presence: true
+  validates :transaction_type, presence: true , inclusion: { in: %w(income expense) }
 end
