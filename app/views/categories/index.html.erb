@@ -1,52 +1,4 @@
 <div class="p-4">
-
-  <style>
-      .btn-add-category {
-          width: 45px;
-          height: 45px;
-          background: linear-gradient(135deg, #059669, #047857);
-          border: none;
-          border-radius: 50%;
-          box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
-          transition: all 0.2s ease-in-out;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          text-decoration: none;
-      }
-
-      .btn-add-category:hover {
-          background: linear-gradient(135deg, #047857, #065f46);
-          box-shadow: 0 6px 20px rgba(5, 150, 105, 0.4);
-          transform: scale(1.05);
-          text-decoration: none;
-      }
-
-      .btn-add-category svg {
-          transition: transform 0.2s ease-in-out;
-      }
-
-      .btn-add-category:hover svg {
-          transform: rotate(90deg);
-      }
-
-      .category-header h1 {
-          font-size: 2rem;
-          font-weight: 700;
-          color: #1f2937;
-          margin: 0;
-      }
-
-      .categories-count {
-          background-color: #f3f4f6;
-          color: #6b7280;
-          padding: 0.5rem 1rem;
-          border-radius: 20px;
-          font-size: 0.875rem;
-          font-weight: 500;
-      }
-  </style>
-
   <div class="d-flex justify-content-between align-items-center mb-4 category-header">
     <div class="d-flex align-items-center gap-3">
       <h1>Categorias</h1>
@@ -59,27 +11,30 @@
   </div>
 
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-    <% @categories.each do |c| %>
-      <div class="p-4 bg-white rounded-lg shadow-md border hover:shadow-lg transition-shadow">
-        <div class="flex justify-between items-center mb-3">
-          <h3 class="font-semibold text-lg text-gray-800 flex-1 pr-2"><%= c.name %></h3>
-          <div class="flex gap-1 flex-shrink-0">
-            <%= link_to edit_category_path(c), class: "p-1 text-blue-600 hover:text-blue-800 hover:bg-blue-100 rounded", title: "Editar" do %>
-              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-              </svg>
-            <% end %>
-            <%= link_to category_path(c), method: :delete,
-                        data: { confirm: "Tem certeza que deseja remover esta categoria?" },
-                        class: "p-1 text-red-600 hover:text-red-800 hover:bg-red-100 rounded",
-                        title: "Remover" do %>
-              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-              </svg>
-            <% end %>
+    <% if @categories.present? %>
+      <% @categories.each do |c| %>
+        <div class="p-4 bg-white rounded-lg shadow-md border hover:shadow-lg transition-shadow">
+          <div class="flex justify-between items-center mb-3">
+            <h3 class="font-semibold text-lg text-gray-800 flex-1 pr-2"><%= c.name %></h3>
+            <div class="flex items-center gap-2 flex-nowrap">
+              <%= link_to edit_category_path(c), class: "inline-flex p-1 text-blue-600 hover:text-blue-800 hover:bg-blue-100 rounded", title: "Editar" do %>
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                </svg>
+              <% end %>
+              <%= button_to category_path(c), method: :delete,
+                            onclick: "return confirm('Tem certeza que deseja remover esta categoria? As Transações também serão removidas !');",
+                            class: "inline-flex p-1 text-blue-600 hover:text-blue-800 hover:bg-blue-100 rounded border-none bg-transparent",
+                            form_class: "inline-flex",
+                            title: "Remover" do %>
+                <svg width="16" height="16" fill="#2563eb" viewBox="0 0 24 24">
+                  <path d="M3 6h18v2H3V6zm2 3v11c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V9H5zm3 2h2v7H8v-7zm4 0h2v7h-2v-7zM8 4V2c0-.55.45-1 1-1h6c.55 0 1 .45 1 1v2h4v2H4V4h4zm2-1v1h4V3h-4z"/>
+                </svg>
+              <% end %>
+            </div>
           </div>
         </div>
-      </div>
+      <% end %>
     <% end %>
   </div>
 
@@ -95,3 +50,9 @@
     </div>
   <% end %>
 </div>
+
+<style>
+  form.inline-flex {
+      display: inline-flex !important;
+  }
+</style>

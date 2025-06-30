@@ -15,10 +15,12 @@
 
   <h3 class="mt-6 text-lg font-semibold">Últimas transações</h3>
   <ul class="mt-2 space-y-1">
-    <%# @transactions.each do |t| %>
-<!--      <li>-->
-<!--        <strong><%#= t.title %></strong> - <%#= t.category.name %> - <%#= t.date.strftime("%d/%m/%Y") %> - R$ <%#= number_to_currency(t.amount, unit: "") %>-->
-<!--      </li>-->
-    <%# end %>
+    <% if @transactions.present? %>
+      <% @transactions.each do |t| %>
+        <li>
+          <strong><%= t.title %></strong> - <%= t.category.name %> - <%= t.date.strftime("%d/%m/%Y") %> - R$ <%= number_to_currency(t.amount, unit: "") %>
+        </li>
+      <% end %>
+    <% end %>
   </ul>
 </div>

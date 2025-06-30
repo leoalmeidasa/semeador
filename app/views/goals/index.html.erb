@@ -1,8 +1,8 @@
 <div class="p-4">
   <div class="d-flex justify-content-between align-items-center mb-4 category-header">
     <div class="d-flex align-items-center gap-3">
-      <h1>Transações</h1>
-      <%= link_to new_transaction_path, class: "btn-add-category", title: "Nova Categoria" do %>
+      <h1>Metas</h1>
+      <%= link_to new_goal_path, class: "btn-add-category", title: "Nova Categoria" do %>
         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
         </svg>
@@ -10,39 +10,24 @@
     </div>
   </div>
 
-  <table class="min-w-full bg-white rounded shadow overflow-hidden">
-    <p class="text-lg font-bold">Saldo atual: R$ <%= number_to_currency(@balance, unit: "") %></p>
-    <% if @transactions.present? %>
-      <thead class="bg-green-100">
-      <tr>
-        <th class="p-3 text-left">Título</th>
-        <th class="p-3 text-left">Categoria</th>
-        <th class="p-3 text-left">Tipo</th>
-        <th class="p-3 text-left">Valor</th>
-        <th class="p-3 text-left">Data</th>
-        <th class="p-3 text-left">Ações</th>
-      </tr>
-      </thead>
-      <tbody>
-      <% @transactions.each do |t| %>
-        <tr class="border-b hover:bg-gray-50">
-          <td class="p-3"><%= t.title %></td>
-          <td class="p-3"><%= t.category.name %></td>
-          <td class="p-3">
-              <span class="<%= t.income? ? 'text-green-600' : 'text-red-500' %> font-semibold">
-                <%= t.income? ? 'Entrada' : 'Saída' %>
-              </span>
-          </td>
-          <td class="p-3">R$ <%= number_to_currency(t.amount, unit: "") %></td>
-          <td class="p-3"><%= t.date.strftime('%d/%m/%Y') %></td>
-          <td class="flex gap-1 flex-shrink-0">
-            <%= link_to edit_transaction_path(t), class: "p-1 text-blue-600 hover:text-blue-800 hover:bg-blue-100 rounded", title: "Editar" do %>
+  <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+    <% if @goals.present? %>
+      <% @goals.each do |g| %>
+        <li class="bg-white p-4 rounded shadow flex justify-between items-center">
+          <div>
+            <h3 class="font-semibold"><%= g.title %></h3>
+            <p>Meta: R$ <%= number_to_currency(g.target_amount, unit: "") %></p>
+            <p>Até: <%= g.due_date.strftime("%d/%m/%Y") %></p>
+            <p>Progresso: <%= ((g.progress.to_f / g.target_amount) * 100).round(1) %>%</p>
+          </div>
+          <div class="flex gap-1 flex-shrink-0">
+            <%= link_to edit_goal_path(g), class: "p-1 text-blue-600 hover:text-blue-800 hover:bg-blue-100 rounded", title: "Editar" do %>
               <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
               </svg>
             <% end %>
-            <%= button_to transaction_path(t), method: :delete,
-                          onclick: "return confirm('Tem certeza que deseja remover esta transação?');",
+            <%= button_to goal_path(g), method: :delete,
+                          onclick: "return confirm('Tem certeza que deseja remover esta meta?');",
                           class: "inline-flex p-1 text-blue-600 hover:text-blue-800 hover:bg-blue-100 rounded border-none bg-transparent",
                           form_class: "inline-flex",
                           title: "Remover" do %>
@@ -50,22 +35,22 @@
                 <path d="M3 6h18v2H3V6zm2 3v11c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V9H5zm3 2h2v7H8v-7zm4 0h2v7h-2v-7zM8 4V2c0-.55.45-1 1-1h6c.55 0 1 .45 1 1v2h4v2H4V4h4zm2-1v1h4V3h-4z"/>
               </svg>
             <% end %>
-          </td>
-        </tr>
+          </div>
+
+        </li>
       <% end %>
     <% end %>
-    </tbody>
-  </table>
+  </ul>
 
-  <% if @transactions.empty? %>
+  <% if @goals.empty? %>
     <div class="text-center py-12">
       <div class="mx-auto" style="width: 40px; height: 40px;">
         <svg class="w-full h-full text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
         </svg>
       </div>
-      <h3 class="mt-4 text-base font-semibold text-gray-900">Nenhuma transação</h3>
-      <p class="mt-1 text-sm text-gray-500">Comece criando uma nova categoria.</p>
+      <h3 class="mt-4 text-base font-semibold text-gray-900">Nenhuma meta</h3>
+      <p class="mt-1 text-sm text-gray-500">Comece criando uma nova meta.</p>
     </div>
   <% end %>
 </div>

@@ -1,0 +1,26 @@
+<%= form_with model: @goal, class: "space-y-4 max-w-md" do |f| %>
+  <div>
+    <%= f.label :title, "Título", class: "block text-sm font-semibold mb-2" %>
+    <%= f.text_field :title, class: "w-full p-2 border border-gray-300 rounded-md" %>
+  </div>
+
+  <div>
+    <%= f.label :target_amount, "Valor da Meta (R$)", class: "block text-sm font-semibold mb-2" %>
+    <%= f.number_field :target_amount, step: 0.01, class: "w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent" %>
+  </div>
+
+  <div>
+    <%= f.label :due_date, "Data Limite", class: "block text-sm font-semibold mb-2" %>
+    <%= f.date_field :due_date, class: "w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent" %>
+  </div>
+
+  <div>
+    <%= f.label :progress, "Progresso Atual (R$)", class: "block text-sm font-semibold mb-2" %>
+    <%= f.number_field :progress, step: 0.01, class: "w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent" %>
+  </div>
+
+  <div class="pt-2">
+    <%= f.submit class: "btn btn-success btn-lg fw-semibold rounded-2 py-2",
+                 style: "background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); border: none;" %>
+  </div>
+<% end %>

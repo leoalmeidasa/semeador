@@ -1,0 +1,14 @@
+<div class="max-w-xl mx-auto bg-white p-6 mt-10 rounded-xl shadow-md border border-gray-200">
+  <h2 class="text-2xl font-bold text-green-700 mb-4">Detalhes da Transação</h2>
+
+  <p><strong>Nome:</strong> <%= @transaction.title %></p>
+  <p><strong>Tipo:</strong> <%= @transaction.transaction_type.capitalize %></p>
+  <p><strong>Valor:</strong> R$ <%= number_to_currency(@transaction.amount, unit: "") %></p>
+  <p><strong>Data:</strong> <%= l(@transaction.date) %></p>
+  <p><strong>Categoria:</strong> <%= @transaction.category&.name || "Não definida" %></p>
+
+  <div class="mt-6 space-x-3">
+    <%= link_to "Editar", edit_transaction_path(@transaction), class: "text-blue-600 hover:underline" %>
+    <%= link_to "Voltar", transactions_path, class: "text-gray-600 hover:underline" %>
+  </div>
+</div>

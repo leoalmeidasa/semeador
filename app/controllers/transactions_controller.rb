@@ -20,6 +20,10 @@ class TransactionsController < ApplicationController
     end
   end
 
+  def show
+    @transaction = Transaction.find(params[:id])
+  end
+
   def edit; end
 
   def update
