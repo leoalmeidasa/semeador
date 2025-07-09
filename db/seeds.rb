@@ -1,10 +1,10 @@
 # Criar categorias
 Category.find_or_create_by([
-                             { name: "Dízimo" },
+                             { name: "Dizimo" },
                              { name: "Oferta" },
-                             { name: "Missões" },
-                             { name: "Alimentação" },
+                             { name: "Missoes" },
+                             { name: "Alimentacao" },
                              { name: "Moradia" },
-                             { name: "Educação" },
+                             { name: "Educacao" },
                              { name: "Lazer" }
                            ])
