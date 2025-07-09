@@ -2,8 +2,7 @@ class CategoriesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_category, only: %i[edit update destroy]
   def index
-    @categories = current_user.categories
-                              .order(:name)
+    @categories = Category.for_user(current_user).order(:name)
   end
 
   def new
@@ -24,9 +23,11 @@ class CategoriesController < ApplicationController
   end
 
   def edit
+    forbid_global!
   end
 
   def update
+    forbid_global! and return
     if @category.update(category_params)
       redirect_to categories_path, notice: "Categoria atualizada."
     else
@@ -35,6 +36,7 @@ class CategoriesController < ApplicationController
   end
 
   def destroy
+    forbid_global! and return
     @category.destroy
     redirect_to categories_path, notice: "Categoria removida."
   end
@@ -42,10 +44,16 @@ class CategoriesController < ApplicationController
   private
 
   def set_category
-    @category = current_user.categories.find(params[:id])
+    @category = current_user.categories.try(params[:id])
   end
 
   def category_params
     params.require(:category).permit(:name)
+  end
+
+  def forbid_global!
+    if @category.nil?
+      redirect_to categories_path, notice: "Você não pode editar ou excluir essa categoria."
+    end
   end
 end

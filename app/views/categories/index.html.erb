@@ -22,14 +22,16 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                 </svg>
               <% end %>
-              <%= button_to category_path(c), method: :delete,
-                            onclick: "return confirm('Tem certeza que deseja remover esta categoria? As Transações também serão removidas !');",
-                            class: "inline-flex p-1 text-blue-600 hover:text-blue-800 hover:bg-blue-100 rounded border-none bg-transparent",
-                            form_class: "inline-flex",
-                            title: "Remover" do %>
-                <svg width="16" height="16" fill="#2563eb" viewBox="0 0 24 24">
-                  <path d="M3 6h18v2H3V6zm2 3v11c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V9H5zm3 2h2v7H8v-7zm4 0h2v7h-2v-7zM8 4V2c0-.55.45-1 1-1h6c.55 0 1 .45 1 1v2h4v2H4V4h4zm2-1v1h4V3h-4z"/>
-                </svg>
+              <% unless c.user_id.nil? %>
+                <%= button_to category_path(c), method: :delete,
+                              onclick: "return confirm('Tem certeza que deseja remover esta categoria? As Transações também serão removidas !');",
+                              class: "inline-flex p-1 text-blue-600 hover:text-blue-800 hover:bg-blue-100 rounded border-none bg-transparent",
+                              form_class: "inline-flex",
+                              title: "Remover" do %>
+                  <svg width="16" height="16" fill="#2563eb" viewBox="0 0 24 24">
+                    <path d="M3 6h18v2H3V6zm2 3v11c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V9H5zm3 2h2v7H8v-7zm4 0h2v7h-2v-7zM8 4V2c0-.55.45-1 1-1h6c.55 0 1 .45 1 1v2h4v2H4V4h4zm2-1v1h4V3h-4z"/>
+                  </svg>
+                <% end %>
               <% end %>
             </div>
           </div>
