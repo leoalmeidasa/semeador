@@ -38,13 +38,16 @@ class CategoriesController < ApplicationController
   def destroy
     forbid_global! and return
     @category.destroy
-    redirect_to categories_path, notice: "Categoria removida."
+    redirect_to categories_path, alert: "Categoria removida."
   end
 
   private
 
   def set_category
-    @category = current_user.categories.try(params[:id])
+    @category = Category.find(params[:id])
+    unless @category.user_id.nil? || @category.user_id == current_user.id
+      redirect_to categories_path, alert: "Você não tem permissão para acessar essa categoria."
+    end
   end
 
   def category_params
@@ -52,8 +55,8 @@ class CategoriesController < ApplicationController
   end
 
   def forbid_global!
-    if @category.nil?
-      redirect_to categories_path, notice: "Você não pode editar ou excluir essa categoria."
+    if @category.user_id.nil?
+      redirect_to categories_path, alert: "Você não pode editar ou excluir essa categoria."
     end
   end
 end

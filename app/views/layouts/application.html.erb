@@ -42,7 +42,7 @@
 </head>
 <body class="bg-light">
 <div class="container">
-  <div id="flash-messages" style="position: fixed; top: 20px; right: 20px; z-index: 1050;">
+  <div id="flash-messages" style="position: fixed; top: 120px; right: 20px; z-index: 1050;">
     <% flash.each do |type, message| %>
       <div class="alert <%= type == 'notice' ? 'alert-success' : 'alert-danger' %> alert-dismissible fade show" role="alert">
         <%= message %>
