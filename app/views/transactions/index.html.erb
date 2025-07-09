@@ -2,75 +2,284 @@
   <div class="d-flex justify-content-between align-items-center mb-4 category-header">
     <div class="d-flex align-items-center gap-3">
       <h1>Transações</h1>
-      <%= link_to new_transaction_path, class: "btn-add-category", title: "Nova Categoria" do %>
-        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
-        </svg>
+      <%= link_to new_transaction_path, class: "btn-add-category", title: "Nova Transação" do %>
+        <button class="balance-add-btn">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+          </svg>
+        </button>
       <% end %>
     </div>
   </div>
 
-  <table class="min-w-full bg-white rounded shadow overflow-hidden">
-    <p class="text-lg font-bold">Saldo atual: R$ <%= number_to_currency(@balance, unit: "") %></p>
+  <div class="transactions-container">
     <% if @transactions.present? %>
-      <thead class="bg-green-100">
-      <tr>
-        <th class="p-3 text-left">Título</th>
-        <th class="p-3 text-left">Categoria</th>
-        <th class="p-3 text-left">Tipo</th>
-        <th class="p-3 text-left">Valor</th>
-        <th class="p-3 text-left">Data</th>
-        <th class="p-3 text-left">Ações</th>
-      </tr>
-      </thead>
-      <tbody>
       <% @transactions.each do |t| %>
-        <tr class="border-b hover:bg-gray-50">
-          <td class="p-3"><%= t.title %></td>
-          <td class="p-3"><%= t.category.name %></td>
-          <td class="p-3">
-              <span class="<%= t.income? ? 'text-green-600' : 'text-red-500' %> font-semibold">
-                <%= t.income? ? 'Entrada' : 'Saída' %>
-              </span>
-          </td>
-          <td class="p-3">R$ <%= number_to_currency(t.amount, unit: "") %></td>
-          <td class="p-3"><%= t.date.strftime('%d/%m/%Y') %></td>
-          <td class="flex gap-1 flex-shrink-0">
-            <%= link_to edit_transaction_path(t), class: "p-1 text-blue-600 hover:text-blue-800 hover:bg-blue-100 rounded", title: "Editar" do %>
-              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+        <div class="transaction-item">
+          <div class="transaction-left">
+            <div class="transaction-icon <%= t.income? ? 'income' : 'expense' %>">
+              <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                <% if t.income? %>
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                <% else %>
+                  <circle cx="12" cy="12" r="10"/>
+                <% end %>
               </svg>
-            <% end %>
-            <%= button_to transaction_path(t), method: :delete,
-                          onclick: "return confirm('Tem certeza que deseja remover esta transação?');",
-                          class: "inline-flex p-1 text-blue-600 hover:text-blue-800 hover:bg-blue-100 rounded border-none bg-transparent",
-                          form_class: "inline-flex",
-                          title: "Remover" do %>
-              <svg width="16" height="16" fill="#2563eb" viewBox="0 0 24 24">
-                <path d="M3 6h18v2H3V6zm2 3v11c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V9H5zm3 2h2v7H8v-7zm4 0h2v7h-2v-7zM8 4V2c0-.55.45-1 1-1h6c.55 0 1 .45 1 1v2h4v2H4V4h4zm2-1v1h4V3h-4z"/>
-              </svg>
-            <% end %>
-          </td>
-        </tr>
-      <% end %>
-    <% end %>
-    </tbody>
-  </table>
+            </div>
+            <div class="transaction-details">
+              <div class="transaction-title"><%= t.title %></div>
+              <div class="transaction-category">
+                <span class="category-indicator"></span>
+                <span><%= t.category.name %></span>
+              </div>
+            </div>
+          </div>
 
-  <% if @transactions.empty? %>
-    <div class="text-center py-12">
-      <div class="mx-auto" style="width: 40px; height: 40px;">
-        <svg class="w-full h-full text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-        </svg>
+          <div class="transaction-right">
+            <div class="transaction-amount <%= t.income? ? 'income' : 'expense' %>">
+              <%= t.income? ? '+' : '-' %>R$ <%= number_to_currency(t.amount, unit: "") %>
+            </div>
+            <div class="transaction-actions">
+              <%= link_to edit_transaction_path(t), class: "action-btn edit", title: "Editar" do %>
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                </svg>
+              <% end %>
+              <%= button_to transaction_path(t), method: :delete,
+                            onclick: "return confirm('Tem certeza que deseja remover esta transação?');",
+                            class: "action-btn delete",
+                            form_class: "inline-flex",
+                            title: "Remover" do %>
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M3 6h18v2H3V6zm2 3v11c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V9H5zm3 2h2v7H8v-7zm4 0h2v7h-2v-7zM8 4V2c0-.55.45-1 1-1h6c.55 0 1 .45 1 1v2h4v2H4V4h4zm2-1v1h4V3h-4z"/>
+                </svg>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="empty-state">
+        <div class="empty-icon">
+          <svg width="40" height="40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+          </svg>
+        </div>
+        <h3>Nenhuma transação</h3>
+        <p>Comece criando uma nova transação.</p>
       </div>
-      <h3 class="mt-4 text-base font-semibold text-gray-900">Nenhuma transação</h3>
-      <p class="mt-1 text-sm text-gray-500">Comece criando uma nova categoria.</p>
+    <% end %>
+  </div>
+
+  <div class="balance-summary">
+    <div class="balance-item">
+      <span class="balance-label">Entenda seu saldo</span>
     </div>
-  <% end %>
+    <div class="balance-item">
+      <div class="balance-details">
+        <span class="balance-text">saldo previsto</span>
+        <span class="balance-amount">R$ <%= number_to_currency(@balance, unit: "") %></span>
+      </div>
+    </div>
+  </div>
 </div>
 
 <style>
+    .category-header {
+        border-bottom: 1px solid #e5e7eb;
+        padding-bottom: 1rem;
+    }
+
+    .transactions-container {
+        background: white;
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        margin-bottom: 1rem;
+    }
+
+    .transaction-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        border-bottom: 1px solid #f3f4f6;
+        transition: background-color 0.2s;
+    }
+
+    .transaction-item:last-child {
+        border-bottom: none;
+    }
+
+    .transaction-item:hover {
+        background-color: #f9fafb;
+    }
+
+    .transaction-left {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .transaction-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+    }
+
+    .transaction-icon.income {
+        background-color: #10b981;
+    }
+
+    .transaction-icon.expense {
+        background-color: #6b7280;
+    }
+
+    .transaction-details {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    .transaction-title {
+        font-weight: 600;
+        color: #1f2937;
+    }
+
+    .transaction-category {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.875rem;
+        color: #6b7280;
+    }
+
+    .category-indicator {
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 50%;
+        background-color: #6b7280;
+    }
+
+    .transaction-right {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .transaction-amount {
+        font-weight: 600;
+        font-size: 1rem;
+    }
+
+    .transaction-amount.income {
+        color: #10b981;
+    }
+
+    .transaction-amount.expense {
+        color: #1f2937;
+    }
+
+    .transaction-actions {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .action-btn {
+        background: none;
+        border: none;
+        padding: 0.25rem;
+        border-radius: 0.25rem;
+        color: #6b7280;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .action-btn:hover {
+        background-color: #f3f4f6;
+        color: #374151;
+    }
+
+    .balance-summary {
+        background: white;
+        border-radius: 0.5rem;
+        padding: 1rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .balance-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5rem 0;
+    }
+
+    .balance-label {
+        color: #10b981;
+        font-weight: 500;
+    }
+
+    .balance-details {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    .balance-text {
+        font-size: 0.875rem;
+        color: #6b7280;
+    }
+
+    .balance-amount {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #1f2937;
+    }
+
+    .balance-add-btn {
+        background-color: #10b981;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 2rem;
+        height: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    .balance-add-btn:hover {
+        background-color: #059669;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 3rem 1rem;
+        color: #6b7280;
+    }
+
+    .empty-icon {
+        margin: 0 auto 1rem;
+        width: 40px;
+        height: 40px;
+    }
+
+    .empty-state h3 {
+        margin-bottom: 0.5rem;
+        color: #1f2937;
+        font-weight: 600;
+    }
+
+    .empty-state p {
+        font-size: 0.875rem;
+    }
+
     form.inline-flex {
         display: inline-flex !important;
     }
