@@ -1,4 +1,14 @@
 <%= form_with model: @category, class: "space-y-4" do |f| %>
+  <% if @category.errors.any? %>
+    <div>
+      <h2><%= pluralize(@category.errors.count, "erro") %> encontrado(s):</h2>
+      <ul>
+        <% @category.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
   <div>
     <%= f.label :name, "Nome da Categoria", class: "block text-sm font-semibold" %>
     <%= f.text_field :name, class: "w-full p-2 border rounded" %>

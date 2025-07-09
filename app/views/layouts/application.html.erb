@@ -40,8 +40,17 @@
       }
   </style>
 </head>
-
 <body class="bg-light">
+<div class="container">
+  <div id="flash-messages" style="position: fixed; top: 120px; right: 20px; z-index: 1050;">
+    <% flash.each do |type, message| %>
+      <div class="alert <%= type == 'notice' ? 'alert-success' : 'alert-danger' %> alert-dismissible fade show" role="alert">
+        <%= message %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    <% end %>
+  </div>
+</div>
 <% if user_signed_in? %>
   <div id="topbar" class="bg-white d-none d-md-block shadow-sm w-100 fixed top-0 left-0 right-0 bg-white shadow z-50 p-2" style="z-index: 1000;">
     <div class="container-fluid px-4 py-3 d-flex align-items-center justify-content-between">
@@ -171,6 +180,15 @@
             });
         }, false);
     })();
+    document.addEventListener('DOMContentLoaded', () => {
+        const alerts = document.querySelectorAll('.alert-dismissible');
+        alerts.forEach(alert => {
+            setTimeout(() => {
+                alert.classList.remove('show');
+                setTimeout(() => alert.remove(), 150);
+            }, 5000); // 5 segundos
+        });
+    });
 </script>
 </body>
 </html>

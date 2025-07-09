@@ -21,7 +21,7 @@
 
   <div>
     <%= f.label :category_id, "Categoria", class: "block text-sm font-semibold" %>
-    <%= f.collection_select :category_id, current_user.categories, :id, :name, {}, class: "w-full p-2 border rounded" %>
+    <%= f.collection_select :category_id, Category.for_user(current_user), :id, :name, prompt: "Selecione uma categoria" %>
   </div>
 
   <div>
