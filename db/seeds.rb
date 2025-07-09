@@ -1,11 +1,10 @@
 # Criar categorias
-Category.create!([
-                   { name: "Dízimo" },
-                   { name: "Oferta" },
-                   { name: "Missões" },
-                   { name: "Alimentação" },
-                   { name: "Moradia" },
-                   { name: "Educação" },
-                   { name: "Lazer" }
-                 ])
-
+Category.find_or_create_by([
+                             { name: "Dízimo" },
+                             { name: "Oferta" },
+                             { name: "Missões" },
+                             { name: "Alimentação" },
+                             { name: "Moradia" },
+                             { name: "Educação" },
+                             { name: "Lazer" }
+                           ])
