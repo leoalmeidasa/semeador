@@ -11,7 +11,7 @@ class User < ApplicationRecord
   before_save { self.email = email.downcase }
 
   private
-  )
+  
   def password_required?
     !persisted? || !password.nil? || !password_confirmation.nil?
   end
